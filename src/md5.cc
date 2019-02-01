@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <iostream>
 #include <string>
 
 #include <openssl/md5.h>
@@ -33,7 +33,7 @@ bool check(unsigned char* target_ptr, size_t target_size, unsigned char* signatu
     
     unsigned char digest[MD5_DIGEST_LENGTH];
     std::string target = md5(target_ptr, target_size);
-    std::cout << "target     : " << target << std::endl;
+    std::cout << target << std::endl;
 
     std::string signature(reinterpret_cast<char const*>(signature_ptr), signature_size -1);
     std::list<std::string> signatures_list;
