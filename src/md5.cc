@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string>
-#include <iostream>
 
 #include <openssl/md5.h>
 #include <boost/foreach.hpp>
@@ -49,10 +48,6 @@ bool check(unsigned char* target_ptr, size_t target_size, unsigned char* signatu
 
 extern "C" {
     bool scan(unsigned char* target, size_t target_size, unsigned char* signature, size_t signature_size) {
-        for(int i = 0; i < target_size; i ++) {
-            printf("%c", target[i]);
-        }
-
         return check(target, target_size, signature, signature_size);
     }
 }
