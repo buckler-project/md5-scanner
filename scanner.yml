@@ -1,0 +1,5 @@
+url:
+  https://github.com/buckler-project/md5-scanner/releases/download/0.1/libmd5.so
+
+path:
+  bin/libmd5.so
