@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string>
 #include <iostream>
 
@@ -13,7 +14,7 @@ std::string md5(unsigned char* ptr, size_t size) {
         "%02x%02x%02x%02x%02x%02x%02x%02x"
         "%02x%02x%02x%02x%02x%02x%02x%02x";
 
-    MD5((const unsigned char*)ptr, size - 1, digest);
+    MD5((const unsigned char*)ptr, size, digest);
 
     snprintf(output,
         sizeof(output)/sizeof(output[0]), 
@@ -33,19 +34,14 @@ bool check(unsigned char* target_ptr, size_t target_size, unsigned char* signatu
     
     unsigned char digest[MD5_DIGEST_LENGTH];
     std::string target = md5(target_ptr, target_size);
+    std::cout << "target     : " << target << std::endl;
 
     std::string signature(reinterpret_cast<char const*>(signature_ptr), signature_size -1);
     std::list<std::string> signatures_list;
 
     boost::split(signatures_list, signature, boost::is_any_of("\n"));
     BOOST_FOREACH(signature, signatures_list) {
-        bool hit = signature == target;
-        /*
-        std::cout << "siganture : " << signature << std::endl;
-        std::cout << "target    : " << target << std::endl;
-        std::cout << "hit       : " << hit << std::endl;
-        */
-        has_hit |= hit;
+        has_hit |= signature == target;
     }         
 
     return has_hit;
@@ -53,6 +49,10 @@ bool check(unsigned char* target_ptr, size_t target_size, unsigned char* signatu
 
 extern "C" {
     bool scan(unsigned char* target, size_t target_size, unsigned char* signature, size_t signature_size) {
+        for(int i = 0; i < target_size; i ++) {
+            printf("%c", target[i]);
+        }
+
         return check(target, target_size, signature, signature_size);
     }
 }
